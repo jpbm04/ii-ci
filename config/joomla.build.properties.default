@@ -1,0 +1,35 @@
+#Joomla Login Daten
+export ci_joomla_url="http://localhost/joomlaci/"
+export ci_joomla_user="admin"
+export ci_joomla_password="joomlamnici"
+export ci_joomla_lang="en-GB"
+export ci_joomla_mail="joomlaci@joomlaci.com"
+
+#Joomla Datenbank Daten
+export ci_jdb_password="joomla-test-pass--"
+export ci_jdb_prefix="cimni_"
+
+#Joomla Version
+export ci_joomla_version="3.9.13"
+
+#Name der Joomla! Archiv-Datei
+export ci_joomla_zip="joomlaci.zip"
+
+#Name des SQL-Dumps, befindet sich in der Archiv-Datei
+export ci_sqldump_a="jommladump_int.sql"
+export ci_sqldump_b="joomladump_ext.sql"
+
+#Name der XML-Konfigurationsdatei für die Ext-Phase
+export ci_file_ext_install="ext-install.xml"
+
+#Die DetailsURL wird in der Update-Collection geführt, die DownloadURL verweisst direkt auf das ZIP-File der Erweiterung
+export ci_ext_detailsurl="http://localhost:8080/job/JoomlaCI/lastSuccessfulBuild/artifact/updates/"
+export ci_ext_downloadurl="http://localhost:8080/job/JoomlaCI/lastSuccessfulBuild/artifact/zips/"
+
+#Zu verwendender Codingstandard
+#export ci_coding_standard="PSR2"
+export ci_coding_standard="build/coding-standards/Joomla"
+
+#Zu ignorierende Dateien für die Metrikerstellung
+export ci_metrics_ignore="tests/,PHPExcel/,fpdf/,ICalender/,iCalcreator*/,nusoap/,lib_fpdf/,lib_icalcreator/,lib_phpexcel/,lib_jquery/,lib_nusoap/,helper/lib/,coding_standards/"
+#export ci_metrics_ignore="**/tests/**,*/PHPExcel/*,*/fpdf/*,*/ICalender/*,*/iCalcreator*/*,*/nusoap/*,*/lib_fpdf/*,*/lib_icalcreator/*,*/lib_phpexcel/*,*/lib_jquery/*,*/lib_nusoap/*,*/helper/lib/*,*/coding_standards/*"
