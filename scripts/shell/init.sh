@@ -16,15 +16,8 @@
 
 echo "Buildumgebung wird initialisiert..."
 
-#TODO: Anders lösen
-if [ "${ci_fresh_tagged_build}" == "true" ]; then
-	echo "Dieser Build wurde getagged und wird um Redundanzen zu vermeiden nicht ausgeführt."
-	exit 0
-fi
-
 echo "Buildvariablen werden eingelesen..."
 . build/config/joomla.build.properties.default || exit 1
-echo "OK! Buildvariablen wurden eingelesen!"
 if [ -x joomla.build.properties ]
 then
 	echo "Projektspezifische Buildvariablen werden eingelesen..."
@@ -33,6 +26,7 @@ then
 else
 	echo "Es wurden keine projektspezifischen Buildvariablen gefunden."
 fi
+echo "OK! Buildvariablen wurden eingelesen."
 
 echo "Erweiterungen aus ext-install werden in den extensions Ordner kopiert ..."
 # TODO: $file php build/scripts/php/ext-copy.php --extinstall $file
@@ -55,7 +49,7 @@ ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
 echo "Datenbank wird erstellt..."
-mysql -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
+mysql -u "root" -p "root" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbank wurde erstellt."
