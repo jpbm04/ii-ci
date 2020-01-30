@@ -14,7 +14,7 @@
 # 10	Datenbankdump konnte nicht erstellt werden.
 # 11	Datenbank und Datenbankbenutzer konnten nicht gelöscht werden.
 
-echo "Beginn der ersten Phase: Organizer.INIT..."
+echo "Buildumgebung wird initialisiert..."
 
 #TODO: Anders lösen
 if [ "${ci_fresh_tagged_build}" == "true" ]; then
@@ -34,74 +34,16 @@ else
 	echo "Es wurden keine projektspezifischen Buildvariablen gefunden."
 fi
 
-echo "Buildumgebung wird bereinigt..."
-find ./tests -not -name "AllGuiTests.php" -not -name "AllUnitTests.php" -not -name "framework_include.php" -not -name "JoomlaSeleniumTest.php" -not -name "JoomlaWebdriverTestCase.php" -not -name "iCampusWebdriverTestCase.php" -not -name "DummyTest.php" -not -name "bootstrap.php" -not -name "bootstrapJ3.php" -not -name "bootstrapSelenium.php" -not -wholename "*/core/*" -not -wholename "*/SeleniumClient/*" -not -wholename "*/Pages/*" -delete 2> /dev/null
-echo "OK! Buildumgebung wurde bereinigt."
-
-echo "Buildumgebung wird geladen..."
-mkdir -p build/api
-mkdir -p build/code-browser
-mkdir -p build/reports
-mkdir -p build/reports/elementcheck
-mkdir -p build/reports/linter/css/csslint
-mkdir -p build/reports/linter/js/jshint
-mkdir -p build/reports/linter/php
-mkdir -p build/reports/linter/xml/xmllint
-mkdir -p build/reports/sqlprefixcheck
-
-mkdir -p build/reports/pdepend
-mkdir -p build/reports/phploc
-mkdir -p build/reports/phpmd
-mkdir -p build/reports/phpcpd
-mkdir -p build/reports/phpcs
-mkdir -p build/reports/phpunit
-mkdir -p build/reports/phpunit/log-junit
-mkdir -p build/reports/phpunit/coverage-clover
-mkdir -p build/reports/phpunit/coverage-html
-mkdir -p build/reports/selenium
-mkdir -p build/temp/dumps
-mkdir extensions
-mkdir updates
-cp build/index.html updates/index.html
-mkdir zips
-cp build/index.html zips/index.html
-php build/scripts/php/ext-delete.php
-echo "OK! Buildumgebung wurde geladen."
-
-echo "Erweiterungen werden kopiert..."
-cp -r build/temp/extensions/* extensions/
-echo "OK! Erweiterungen wurden kopiert."
-
-echo "Buildumgebung wird initialisiert..."
-#TODO: refspec?
-
 echo "Erweiterungen aus ext-install werden in den extensions Ordner kopiert ..."
 # TODO: $file php build/scripts/php/ext-copy.php --extinstall $file
 echo "OK! Erweiterungen aus ext-install wurden kopiert."
 
-echo "Beginn der Syntaxprüfung für PHP-Dateien..."
-find ./extensions -name "*.php" -exec php -l {} \; | grep -v "No syntax errors detected in" | tee -a build/reports/linter/php/php.txt
-echo "OK! Ende der Syntaxprüfung für PHP-Dateien."
-
-echo "Beginn der Syntaxprüfung für XML-Dateien..."
-find ./extensions -name *.xml -exec xmllint --noout {} + | tee -a build/reports/linter/xml/xmllint/xmllint.txt
-echo "OK! Ende der Syntaxprüfung für XML-Dateien."
-
-echo "Beginn der Syntaxprüfung für JS-Dateien..."
-find ./extensions -name *.js -not -wholename "*.min.js" -not -wholename "*jscolor.js" -not -wholename "*/tristate*.js" -not -wholename "*/lib_jquery/*" -not -wholename "*/lib_jquery/*" -not -wholename "*/lib_extjs4/*" -not -wholename "*/extjs/ext-all.js" -not -wholename "*/extjs/ext-all-debug.js" -not -wholename "*/extjs/bootstrap-manifest.js" -not -wholename "*/js/jquery-ui-1.9.2.custom.js" -not -wholename "*/js/cropbox.js" -not -wholename "*/js/jquery.easing.js" -not -wholename "*/previewbutton.js" -exec jshint {} + | tee -a build/reports/linter/js/jshint/jshint.txt
-echo "OK! Ende der Syntaxprüfung für JS-Dateien."
-
-echo "Beginn der Syntaxprüfung für CSS-Dateien..."
-find extensions -name *.css -exec java -jar build/tools/js.jar build/tools/csslint-rhino.js {} +
-find extensions -name *.css -exec java -jar build/tools/js.jar build/tools/csslint-rhino.js --format=lint-xml {} + > build/reports/linter/css/csslint/csslint.xml
-echo "OK! Ende der Syntaxprüfung für CSS-Software."
-
 echo "Beginn des Elementchecks..."
-php build/scripts/php/ext-element.php | tee -a build/reports/elementcheck/elementcheck.txt
+# TODO: php build/scripts/php/ext-element.php | tee -a build/reports/elementcheck/elementcheck.txt
 echo "OK! Ende des Elementchecks."
 
 echo "Beginn der SQL-Präfixprüfung..."
-php build/scripts/php/ext-checkTablePrefix.php | tee -a build/reports/sqlprefixcheck/sqlprefixcheck.txt
+# TODO: php build/scripts/php/ext-checkTablePrefix.php | tee -a build/reports/sqlprefixcheck/sqlprefixcheck.txt
 echo "OK! Ende der SQL-Präfixprüfung."
 
 echo "Joomla! auspacken, DB erstellen, Admin anlegen, Config anpassen..."
@@ -225,10 +167,6 @@ else
 	exit 10
 fi
 
-build/scripts/shell/archiveworkspace.sh
-build/scripts/shell/archiveextensions.sh
-build/scripts/shell/archivebuildenviroment.sh
-
-echo "OK! Erste Phase erfolgreich beendet."
+echo "OK! Buildumgebung wurde initialisiert."
 
 exit 0
