@@ -49,7 +49,7 @@ ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
 echo "Datenbank wird erstellt..."
-mysql -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
+mysql -h localhost -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
 #mysql -u"root" -p"root" -h"localhost" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
 if [ $? -eq "0" ]
 then
