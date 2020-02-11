@@ -59,8 +59,8 @@ else
 fi
 
 echo "Datenbanknutzer wird erstellt..."
-#mysql -u "root" -p"root" -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}'"
-mysql -u "root" -p"root" -e "CREATE USER 'foo'@'localhost' IDENTIFIED BY 'bar'"
+mysql -u "root" -p"root" -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}'"
+#mysql -u "root" -p"root" -e "CREATE USER 'foo'@'localhost' IDENTIFIED BY 'bar'"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankbenutzer erstellt."
