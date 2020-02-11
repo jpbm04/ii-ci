@@ -49,7 +49,7 @@ ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
 echo "Datenbank wird erstellt..."
-mysql -u "root" -p"root" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8"
+mysql -u "root" -p"root" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8;"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbank wurde erstellt."
@@ -59,7 +59,7 @@ else
 fi
 
 echo "Datenbanknutzer wird erstellt..."
-mysql -u "root" -p"root" -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}'"
+mysql -u "root" -p"root" -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}';"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankbenutzer erstellt."
@@ -70,7 +70,7 @@ fi
 
 echo "Datenbakrechte werden gesetzt..."
 #mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
-mysql -u "root" -p"root" -e "GRANT ALL ON ${ci_jdb_name}.* TO ${ci_jdb_user}@localhost"
+mysql -u "root" -p"root" -e GRANT ALL ON ${ci_jdb_name}.* TO ${ci_jdb_user}@localhost;
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankrechte gesetzt."
