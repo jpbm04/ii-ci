@@ -69,7 +69,8 @@ else
 fi
 
 echo "Datenbakrechte werden gesetzt..."
-mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
+#mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
+mysql -u "root" -p"root" -e "GRANT ALL ON '${ci_jdb_name}'.* TO '${ci_jdb_user}'@'localhost'"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankrechte gesetzt."
