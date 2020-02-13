@@ -70,6 +70,7 @@ fi
 
 echo "TESSTAUSGABEN:" #TODO: entfernen
 mysql --version
+mysql -u "root" -p"root" -e "show databases;"
 
 echo "Datenbakrechte werden gesetzt..."
 #mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
