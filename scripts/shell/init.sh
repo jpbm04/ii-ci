@@ -135,7 +135,11 @@ else
 	echo "Joomla 2.x Admin Benutzer wird angelegt ..."
 	mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}users (id, name, username, email, password, usertype, block, sendEmail, registerDate, lastvisitDate, activation, params, lastResetTime, resetCount) VALUES (7, \"Super User\", \"${ci_joomla_user}\", \"${ci_joomla_mail}\", \"${ci_joomla_password_crypt}\", \"deprecated\", 0, 1, \"2013-03-20 00:00:00\", \"0000-00-00 00:00:00\", 0, \"\", \"0000-00-00 00:00:00\", 0)"
 fi
-echo "OK! Joomla Admin Benutzer wurde angelegt."
+if [ $? -eq "0" ]; then
+	echo "OK! Joomla Admin Benutzer wurde angelegt."
+else
+	echo "FAIL! Joomla Admin Benutzer konnte nicht angelegt werden!"
+	exi 9;
 
 echo "Admin-User wird in die Usergroup-Map eintragen..."
 mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}user_usergroup_map (user_id, group_id) VALUES (7, 8)"
@@ -144,7 +148,7 @@ then
 	echo "OK! Admin-Benutzer wurde in die Uusergroup-Map eingetragen."
 else
 	echo "FAIL! Admin-Benutzer konnte nicht in die Usergroup-Map eingetragen werden."
-	exit 9
+	exit 10
 fi
 
 echo "OK! Joomla! wurde erfolgreich auf dem System eingerichtet."
@@ -159,7 +163,7 @@ then
 	echo "OK! Datenbankdump ${ci_sqldump_a} wurde erfolgreich erstellt."
 else
 	echo "FAIL! Datenbankdump konnte nicht erstellt werden."
-	exit 10
+	exit 11
 fi
 
 echo "OK! Buildumgebung wurde initialisiert."
