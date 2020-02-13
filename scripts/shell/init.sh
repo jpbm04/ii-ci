@@ -135,10 +135,6 @@ echo "Passwort des Joomla Admin-Users wird verschlüsselt..."
 ci_joomla_password_crypt=$(php build/scripts/php/joomla-prepare.php --cryptpass="${ci_joomla_password}")
 echo "OK! Passwort der Joomla Admin-Users wurde verschlüsselt."
 
-echo "TESTAUSGABEN" #TODO: entfernen
-echo "MySQL-Modus"
-mysql -u "root" -p"root" -e "SELECT @@sql_mode;"
-
 if [ "${ci_jthree}" = "true"  ]
 then
 	echo "Joomla 3.x Admin Benutzer wird angelegt ..."
@@ -170,7 +166,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump ${ci_jdbconfig_db} > build/${ci_sqldump}
+mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/${ci_sqldump}
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankdump ${ci_sqldump_a} wurde erfolgreich erstellt."
