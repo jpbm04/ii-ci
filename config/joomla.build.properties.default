@@ -16,8 +16,7 @@ export ci_joomla_version="3.9.13"
 export ci_joomla_zip="joomlaci.zip"
 
 #Name des SQL-Dumps, befindet sich in der Archiv-Datei
-export ci_sqldump_a="jommladump_int.sql"
-export ci_sqldump_b="joomladump_ext.sql"
+export ci_sqldump="jommladump.sql"
 
 #Name der XML-Konfigurationsdatei für die Ext-Phase
 export ci_file_ext_install="ext-install.xml"

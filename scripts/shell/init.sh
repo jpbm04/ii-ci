@@ -170,7 +170,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump ${ci_jdbconfig_db} > build/temp/dumps/${ci_sqldump_a}
+mysqldump ${ci_jdbconfig_db} > build/${ci_sqldump}
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankdump ${ci_sqldump_a} wurde erfolgreich erstellt."
