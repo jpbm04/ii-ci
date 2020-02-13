@@ -48,6 +48,15 @@ echo "OK! Datenbankname ${ci_jdb_name} bezogen...."
 ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
+echo "Datenbankmodus wird gesetzt..."
+mysql -u "root" -p"root" -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
+if [ $? -eq "0" ]; then
+	echo "OK! Datenbankmodus wurde gesetzt."
+else
+	echo "FAIL! Datenbankmodus konnte nicht gesetzt werden!"
+	exit 2
+fi
+
 echo "Datenbank wird erstellt..."
 mysql -u "root" -p"root" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8;"
 if [ $? -eq "0" ]
