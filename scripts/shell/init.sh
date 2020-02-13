@@ -78,7 +78,7 @@ mysql -u "root" -p"root" -e "SELECT * FROM mysql.user;"
 
 echo "Datenbakrechte werden gesetzt..."
 #mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
-mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}'.* TO '${ci_jdb_user}'@'localhost' WITH GRANT OPTION;"
+mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON *.* TO '${ci_jdb_user}'@'localhost' WITH GRANT OPTION;"
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankrechte gesetzt."
