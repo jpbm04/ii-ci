@@ -139,13 +139,14 @@ if [ $? -eq "0" ]; then
 	echo "OK! Joomla Admin Benutzer wurde angelegt."
 else
 	echo "FAIL! Joomla Admin Benutzer konnte nicht angelegt werden!"
-	exi 9;
+	exit 9;
+fi
 
 echo "Admin-User wird in die Usergroup-Map eintragen..."
 mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}user_usergroup_map (user_id, group_id) VALUES (7, 8)"
 if [ $? -eq "0" ]
 then
-	echo "OK! Admin-Benutzer wurde in die Uusergroup-Map eingetragen."
+	echo "OK! Admin-Benutzer wurde in die Usergroup-Map eingetragen."
 else
 	echo "FAIL! Admin-Benutzer konnte nicht in die Usergroup-Map eingetragen werden."
 	exit 10
