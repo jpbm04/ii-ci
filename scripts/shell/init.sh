@@ -126,6 +126,9 @@ echo "Passwort des Joomla Admin-Users wird verschlüsselt..."
 ci_joomla_password_crypt=$(php build/scripts/php/joomla-prepare.php --cryptpass="${ci_joomla_password}")
 echo "OK! Passwort der Joomla Admin-Users wurde verschlüsselt."
 
+echo "TESTAUSGABEN" #TODO: entfernen
+echo "MySQL-Modus"
+mysql -u "root" -p"root" -e "SELECT @@sql_mode;"
 
 if [ "${ci_jthree}" = "true"  ]
 then
