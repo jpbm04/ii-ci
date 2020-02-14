@@ -193,6 +193,10 @@ echo "Neue Datenbank wird wiederhergestellt..."
 php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/temp/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
 echo "OK! Datenbank wurde wiederhergestellt."
 
+echo "Datenbankdump wird gelöscht..."
+rm "build/temp/${ci_sqldump}"
+echo "OK! Datenbankdump wurde gelöscht."
+
 echo "Sortiere alle Erweiterungen..."
 php build/scripts/php/ext-sort.php --extxmlfile=${ci_file_ext_install} || exit 15
 echo "OK! Erweiterungen wurden sortiert."
@@ -228,7 +232,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump ${ci_jdbconfig_db} > ${ci_sqldump}
+mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankdump ${ci_sqldump} wurde erfolgreich erstellt."
