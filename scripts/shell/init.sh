@@ -186,7 +186,7 @@ fi
 echo "OK! Buildumgebung wurde initialisiert."
 
 echo "Neue Datenbank wird wiederhergestellt..."
-php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump=${ci_sqldump} --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
+php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
 echo "OK! Datenbank wurde wiederhergestellt."
 
 echo "Sortiere alle Erweiterungen..."
