@@ -16,6 +16,10 @@
 
 echo "Buildumgebung wird initialisiert..."
 
+echo "Verzeichnisstruktur wird angelegt..."
+mkdir -p build/temp
+echo "OK! Verzeichnisstruktur wurde angelegt."
+
 echo "Buildvariablen werden eingelesen..."
 . build/config/joomla.build.properties.default || exit 1
 if [ -x joomla.build.properties ]; then
@@ -157,7 +161,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/${ci_sqldump}
+mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankdump ${ci_sqldump} wurde erfolgreich erstellt."
 else
@@ -186,7 +190,7 @@ fi
 echo "OK! Buildumgebung wurde initialisiert."
 
 echo "Neue Datenbank wird wiederhergestellt..."
-php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
+php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/temp/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
 echo "OK! Datenbank wurde wiederhergestellt."
 
 echo "Sortiere alle Erweiterungen..."
