@@ -166,7 +166,7 @@ else
 fi
 
 echo "Datenbank ${ci_jdb_name} wird gelöscht..."
-mysql -u "root" -p"root" -e "DROP DATABASE '${ci_jdb_name}';"
+mysql -u "root" -p"root" -e "DROP DATABASE ${ci_jdb_name};"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbank ${ci_jdb_name} wurde erfolgreich gelöscht."
 else
