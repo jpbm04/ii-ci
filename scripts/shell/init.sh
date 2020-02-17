@@ -20,6 +20,8 @@ echo "Verzeichnisstruktur wird angelegt..."
 mkdir -p build/temp
 echo "OK! Verzeichnisstruktur wurde angelegt."
 
+build/scripts/shell/cleanup.sh extensions
+
 echo "Buildvariablen werden eingelesen..."
 . build/config/joomla.build.properties.default || exit 1
 if [ -x joomla.build.properties ]; then
