@@ -14,7 +14,7 @@
 # 10	Datenbankdump konnte nicht erstellt werden.
 # 11	Datenbank und Datenbankbenutzer konnten nicht gelöscht werden.
 
-mysqlopts='-u "root" -p"root" -h "localhost" -P 3306'
+mysqlopts='-u "root" -p"root" -h localhost -P 3306'
 
 echo "Buildumgebung wird initialisiert..."
 
