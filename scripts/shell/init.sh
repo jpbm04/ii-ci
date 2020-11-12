@@ -14,7 +14,7 @@
 # 10	Datenbankdump konnte nicht erstellt werden.
 # 11	Datenbank und Datenbankbenutzer konnten nicht gelöscht werden.
 
-mysqlopts='-u "root" -p"root" -h localhost -P 3306'
+mysqlopts='-u root -proot'
 
 echo "Buildumgebung wird initialisiert..."
 
@@ -56,7 +56,7 @@ ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
 echo "Datenbankmodus wird gesetzt..."
-mysql -u root -proot -h localhost -P 3306 -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
+mysql $mysqlopts -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankmodus wurde gesetzt."
 else
