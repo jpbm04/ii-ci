@@ -56,7 +56,7 @@ ci_jdb_user=$(php build/scripts/php/joomla-prepare.php --dbuser)
 echo "OK! Datenbankbenutzer ${ci_jdb_user} bezogen."
 
 echo "Datenbankmodus wird gesetzt..."
-mysql -u "root" -p"root" -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
+mysql $mysqlopts -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankmodus wurde gesetzt."
 else
