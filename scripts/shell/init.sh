@@ -14,6 +14,8 @@
 # 10	Datenbankdump konnte nicht erstellt werden.
 # 11	Datenbank und Datenbankbenutzer konnten nicht gelöscht werden.
 
+mysqlopts='-u "root" -p"root" -h "localhost" -P 3306'
+
 echo "Buildumgebung wird initialisiert..."
 
 echo "Verzeichnisstruktur wird angelegt..."
@@ -63,7 +65,7 @@ else
 fi
 
 echo "Datenbank wird erstellt..."
-mysql -u "root" -p"root" -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8;"
+mysql $mysqlopts -e "CREATE DATABASE IF NOT EXISTS ${ci_jdb_name} CHARACTER SET utf8;"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbank wurde erstellt."
 else
@@ -72,7 +74,7 @@ else
 fi
 
 echo "Datenbanknutzer wird erstellt..."
-mysql -u "root" -p"root" -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}';"
+mysql $mysqlopts -e "CREATE USER '${ci_jdb_user}'@'localhost' IDENTIFIED BY '${ci_jdb_password}';"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankbenutzer erstellt."
 else
@@ -82,7 +84,7 @@ fi
 
 echo "Datenbakrechte werden gesetzt..."
 #mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON '${ci_jdb_name}' . * TO '${ci_jdb_user}'@'localhost'"
-mysql -u "root" -p"root" -e "GRANT ALL PRIVILEGES ON *.* TO '${ci_jdb_user}'@'localhost'; FLUSH PRIVILEGES;"
+mysql $mysqlopts -e "GRANT ALL PRIVILEGES ON *.* TO '${ci_jdb_user}'@'localhost'; FLUSH PRIVILEGES;"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankrechte gesetzt."
 else
@@ -95,7 +97,7 @@ sed -i "s/#__/${ci_jdb_prefix}/" installation/sql/mysql/joomla.sql
 echo "OK! Präfix in Datenbank ersetzt."
 
 echo "Dump wir in Datenbank eingespielt..."
-mysql -u "${ci_jdb_user}" -p"${ci_jdb_password}" "${ci_jdb_name}" < installation/sql/mysql/joomla.sql
+mysql -u "${ci_jdb_user}" -p"${ci_jdb_password}" -h "localhost" -P 3306 "${ci_jdb_name}" < installation/sql/mysql/joomla.sql
 if [ $? -eq "0" ]; then
 	echo "OK! Dump in Datenbank eingespielt."
 else
@@ -122,7 +124,7 @@ ci_jthree=$(php build/scripts/php/joomla-prepare.php --jthree ${ci_jversion})
 echo "OK! Versionsnummer ${ci_jversion} ermittelt."
 
 echo "Schema-Tabelle wird aktualisiert..."
-mysql -u "${ci_jdb_user}" -p"${ci_jdb_password}" -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}schemas (\`extension_id\`, \`version_id\`) VALUES (700, \"${ci_jversion}\")"
+mysql -u "${ci_jdb_user}" -p"${ci_jdb_password}" -h "localhost" -P 3306 -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}schemas (\`extension_id\`, \`version_id\`) VALUES (700, \"${ci_jversion}\")"
 if [ $? -eq "0" ]; then
 	echo "OK! Schema-Tabelle wurde aktualisiert."
 else
@@ -136,10 +138,10 @@ echo "OK! Passwort der Joomla Admin-Users wurde verschlüsselt."
 
 if [ "${ci_jthree}" = "true"  ]; then
 	echo "Joomla 3.x Admin Benutzer wird angelegt ..."
-	mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}users (id, name, username, email, password, block, sendEmail, registerDate, lastvisitDate, activation, params, lastResetTime, resetCount) VALUES (7, \"Super User\", \"${ci_joomla_user}\", \"${ci_joomla_mail}\", \"${ci_joomla_password_crypt}\", 0, 1, \"2013-03-20 00:00:00\", \"0000-00-00 00:00:00\", 0, \"\", \"0000-00-00 00:00:00\", 0)"
+	mysql -u ${ci_jdb_user} -p${ci_jdb_password} -h "localhost" -P 3306 -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}users (id, name, username, email, password, block, sendEmail, registerDate, lastvisitDate, activation, params, lastResetTime, resetCount) VALUES (7, \"Super User\", \"${ci_joomla_user}\", \"${ci_joomla_mail}\", \"${ci_joomla_password_crypt}\", 0, 1, \"2013-03-20 00:00:00\", \"0000-00-00 00:00:00\", 0, \"\", \"0000-00-00 00:00:00\", 0)"
 else
 	echo "Joomla 2.x Admin Benutzer wird angelegt ..."
-	mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}users (id, name, username, email, password, usertype, block, sendEmail, registerDate, lastvisitDate, activation, params, lastResetTime, resetCount) VALUES (7, \"Super User\", \"${ci_joomla_user}\", \"${ci_joomla_mail}\", \"${ci_joomla_password_crypt}\", \"deprecated\", 0, 1, \"2013-03-20 00:00:00\", \"0000-00-00 00:00:00\", 0, \"\", \"0000-00-00 00:00:00\", 0)"
+	mysql -u ${ci_jdb_user} -p${ci_jdb_password} -h "localhost" -P 3306 -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}users (id, name, username, email, password, usertype, block, sendEmail, registerDate, lastvisitDate, activation, params, lastResetTime, resetCount) VALUES (7, \"Super User\", \"${ci_joomla_user}\", \"${ci_joomla_mail}\", \"${ci_joomla_password_crypt}\", \"deprecated\", 0, 1, \"2013-03-20 00:00:00\", \"0000-00-00 00:00:00\", 0, \"\", \"0000-00-00 00:00:00\", 0)"
 fi
 if [ $? -eq "0" ]; then
 	echo "OK! Joomla Admin Benutzer wurde angelegt."
@@ -149,7 +151,7 @@ else
 fi
 
 echo "Admin-User wird in die Usergroup-Map eintragen..."
-mysql -u ${ci_jdb_user} -p${ci_jdb_password} -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}user_usergroup_map (user_id, group_id) VALUES (7, 8)"
+mysql -u ${ci_jdb_user} -p${ci_jdb_password} -h "localhost" -P 3306 -e "INSERT INTO ${ci_jdb_name}.${ci_jdb_prefix}user_usergroup_map (user_id, group_id) VALUES (7, 8)"
 if [ $? -eq "0" ]; then
 	echo "OK! Admin-Benutzer wurde in die Usergroup-Map eingetragen."
 else
@@ -163,7 +165,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
+mysqldump -u "root" -p"root" -h "localhost" -P 3306 ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbankdump ${ci_sqldump} wurde erfolgreich erstellt."
 else
@@ -172,7 +174,7 @@ else
 fi
 
 echo "Datenbank ${ci_jdb_name} wird gelöscht..."
-mysql -u "root" -p"root" -e "DROP DATABASE ${ci_jdb_name};"
+mysql $mysqlopts -e "DROP DATABASE ${ci_jdb_name};"
 if [ $? -eq "0" ]; then
 	echo "OK! Datenbank ${ci_jdb_name} wurde erfolgreich gelöscht."
 else
@@ -181,7 +183,7 @@ else
 fi
 
 echo "Datenbanknutzer ${ci_jdb_user} wird entfernt..."
-mysql -u "root" -p"root" -e "DELETE FROM mysql.user WHERE User='${ci_jdb_user}'; FLUSH PRIVILEGES;"
+mysql $mysqlopts -e "DELETE FROM mysql.user WHERE User='${ci_jdb_user}'; FLUSH PRIVILEGES;"
 if [ $? -eq "0" ]; then
 	echo "OK! Benutzer ${ci_jdb_user} wurde erfolgreich entfernt."
 else
@@ -234,7 +236,7 @@ echo "Datenbankdump wird erstellt..."
 echo "Name der Datenbank wird ermittelt ..."
 ci_jdbconfig_db=$(php build/scripts/php/db-dump.php --jdbname)
 echo "OK! Datenbankname ${ci_jdbconfig_db} ermittelt."
-mysqldump -u "root" -p"root" ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
+mysqldump -u "root" -p"root" -h "localhost" -P 3306 ${ci_jdbconfig_db} > build/temp/${ci_sqldump}
 if [ $? -eq "0" ]
 then
 	echo "OK! Datenbankdump ${ci_sqldump} wurde erfolgreich erstellt."
