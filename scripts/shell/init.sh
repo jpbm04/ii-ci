@@ -194,7 +194,7 @@ fi
 echo "OK! Buildumgebung wurde initialisiert."
 
 echo "Neue Datenbank wird wiederhergestellt..."
-php build/scripts/php/db-create.php --dbhost='localhost' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/temp/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
+php build/scripts/php/db-create.php --dbhost='127.0.0.1' --dbport='3306' --dbuser='root' --dbpass='root' --dump="build/temp/${ci_sqldump}" --jdbpass="${ci_jdb_password}" --jdbprefix="${ci_jdb_prefix}" || exit 14
 echo "OK! Datenbank wurde wiederhergestellt."
 
 echo "Datenbankdump wird gelöscht..."
