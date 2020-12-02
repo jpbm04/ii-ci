@@ -816,7 +816,7 @@ function connectToDatabase($dbhost, $dbport, $dbuser, $dbpass)
 {
 	try
 	{
-		$dsn = "mysql:host=".$dbhost;
+		$dsn = "mysql:host=".$dbhost.";port=".$dbport;
 		echo "DSN: ".$dsn."\n";
 		echo "DB-User: ".$dbuser."\n";
 		echo "DB-Pass: ".$dbpass."\n";
