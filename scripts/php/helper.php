@@ -817,6 +817,9 @@ function connectToDatabase($dbhost, $dbport, $dbuser, $dbpass)
 	try
 	{
 		$dsn = "mysql:host=".$dbhost;
+		echo "DSN: ".$dsn;
+		echo "DB-User: ".$dbuser;
+		echo "DB-Pass: ".$dbpass;
 		$db = new PDO($dsn, $dbuser, $dbpass);
 	}
 	catch (\PDOException $e)
