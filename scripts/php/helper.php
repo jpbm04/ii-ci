@@ -817,14 +817,10 @@ function connectToDatabase($dbhost, $dbport, $dbuser, $dbpass)
 	try
 	{
 		$dsn = "mysql:host=".$dbhost.";port=".$dbport;
-		echo "DSN: ".$dsn."\n";
-		echo "DB-User: ".$dbuser."\n";
-		echo "DB-Pass: ".$dbpass."\n";
 		$db = new PDO($dsn, $dbuser, $dbpass);
 	}
 	catch (\PDOException $e)
 	{
-		echo "FEHLER\n";
 		echo $e->getMessage() . PHP_EOL;
 		exit(EXIT_FAILURE);
 	}
