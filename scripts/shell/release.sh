@@ -10,7 +10,7 @@ REPO_NAME="${REPO[1]}"
 
 echo "Creating \"${REPO_NAME}\" release..."
 cd extensions/${REPO_NAME}/${REPO_NAME}
-sed -i "s/<\/server>/https:\/\/${REPO_USER}.github.io\/${extension}\/updates.xml<\/server>/" ${REPO_NAME}.xml
+sed -i "s/<\/server>/https:\/\/${REPO_USER}.github.io\/${REPO_NAME}\/updates.xml<\/server>/" ${REPO_NAME}.xml
 zip -r ../../../release/${REPO_NAME} *
 cd ${pwdbak}
 echo "${REPO_NAME} release succesfully created."
